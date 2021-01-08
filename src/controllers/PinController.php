@@ -14,7 +14,7 @@ class PinController extends AppController{
 
     public static function create_pin(){
         $data = AppController::getRequestJson();
-        $pin = new Pin($data->track_id, $data->coords, $data->author_id, $data->no_likes, $data->no_dislikes, $data->verified);
+        $pin = new Pin($data->trackID, $data->coords, $data->authorID, 0, 0, false);
         echo json_encode($pin);
     }
 }

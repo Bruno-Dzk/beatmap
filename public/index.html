@@ -9,20 +9,22 @@
         <link rel="stylesheet" href="style/reset.css">
         <link rel="stylesheet" href="style/style.css">
         <link rel="stylesheet" href="libs/ol.css" type="text/css">
-        <script src="libs/ol.js" type="text/javascript"></script>
-        <script src="script/app.js" type="text/javascript"></script>
-        <script src="script/api.js" type="text/javascript"></script>
-        <script src="script/map.js" type="text/javascript"></script>
-        <script src="script/view.js" type="text/javascript"></script>
-        <script src="script/model.js" type="text/javascript"></script>
-        <script src="script/track.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+        <script src="script/App.js" type="text/javascript"></script>
+        <script src="script/Component.js" type="text/javascript"></script>
+        <script src="script/JSONRequest.js" type="text/javascript"></script>
+        <script src="script/PinCreator.js" type="text/javascript"></script>
+        <script src="script/Track.js" type="text/javascript"></script>
+        <script src="script/TrackList.js" type="text/javascript"></script>
+        <script src="script/SpotifyAPI.js" type="text/javascript"></script>
+        <script src="script/MapHandler.js" type="text/javascript"></script>
     </head>
     <body>
         <header class="header">
             <h1>Beatmap</h1>
         </header>
         <div class="map" id="map"></div>
-        <div id="pin-creator">
+        <div class="pin-creator">
             <div class="lonlat-header">42.981°N 77.99°W</div>
             <div class="box-header">
                 <h1 class="box-title">
@@ -32,10 +34,8 @@
                     Choose a song from Spotify to be available for other users as a pin on the map:
                 </p>
             </div>
-            <div class="searchbox">
-                <input type="search" id="song-search" name="song-search" spellcheck="false">
-            </div>
-            <div class="scroller" id="test-scroller">
+            <input type="search" id="track-search" name="track-search" spellcheck="false" autocomplete="off">
+            <div class="track-list" id="test-scroller">
                 <!-- <div class="track">
                     <img src="img/album-placeholder.jpg" width="64" height="64">
                     <div class="track-desc">
@@ -57,7 +57,7 @@
             </div>
         </div>
         <script>
-            var app = new App();
+            let app = new App();
             app.main();
         </script>
     </body>
