@@ -9,7 +9,7 @@ class MapHandler{
                 })
             ],
             view: new ol.View({
-                center: ol.proj.fromLonLat([4.35247, 50.84673]),
+                center: ol.proj.fromLonLat([0, 0]),
                 zoom: 4
             })
         });
@@ -24,26 +24,34 @@ class MapHandler{
     addEventListener(type, callback){
         this.map.on(type, callback);
     }
-    createMarker(){
+    createMarker(pin){
+        var iconFeature = new ol.Feature({
+            geometry: new ol.geom.Point(pin.coords)
+        });
+        console.log(pin);
+
+        let src = '';
+        if(pin.verified)
+            src = 'img/verified_marker.png';
+        else
+            src = 'img/marker.png';  
+
         var iconStyle = new ol.style.Style({
-            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                anchor: [0.5, 46],
+            image: new ol.style.Icon({
+                anchor: [0.5, 1.0],
                 anchorXUnits: 'fraction',
-                anchorYUnits: 'pixels',
-                opacity: 0.75,
-                src: 'img/marker.png'
-            }))
+                anchorYUnits: 'fraction',
+                src: src
+            })
+        });
+          
+        iconFeature.setStyle(iconStyle);
+          
+        var vectorSource = new ol.source.Vector({
+        features: [iconFeature],
         });
         var layer = new ol.layer.Vector({
-            source: new ol.source.Vector({
-                features: [
-                    new ol.Feature({
-                        labelPoint: new ol.geom.Point(4.35247, 50.84673),
-                        name: 'My Polygon',
-                        geometry: new ol.geom.Point(ol.proj.fromLonLat([4.35247, 50.84673])),
-                    })
-                ]
-            })
+            source: vectorSource
         });
         this.map.addLayer(layer);
     }

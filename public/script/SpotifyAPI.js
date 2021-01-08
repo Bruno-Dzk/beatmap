@@ -1,6 +1,6 @@
 const AUTHORIZE_URL = "https://accounts.spotify.com/authorize";
 const API_URL = "https://api.spotify.com/v1/search";
-const TOKEN = "Bearer BQCx3K1I2TEWGUimtTxCjpv6I4ab6X26fvz2x4rThBstlNHa0xiqrdnA4--5hUzN5F3_NcN3ZlfxTh--t8BFK-D5eNYavaKbW89-hxymqLtAJJPdAAUlcPP5O_38AUQRDPCX7yXW1-S8g3cWThN5QY-xP36IZ0p6oAs";
+const TOKEN = "Bearer BQAf6LJXF9YRa-DB5dcvldE6kK5UIhM2hxGNd67ekVZGRl6vAXFfANvDxfXz7INkziGOhI--e0aXoJfbd6CpivHesQIxKVbLYyGbafxfk23lqQVgPkNLJW7CYkOeJ5x3JLG1Vol9yc0aJUpd--7kIPmEG9guAs6Cnec";
 
 
 class SpotifyAPI{

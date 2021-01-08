@@ -1,7 +1,7 @@
 const CREATE_PIN_URL = "http://localhost:8080/pin";
 
 class PinCreator extends Component{
-    constructor(container, spotifyApi){
+    constructor(container, spotifyApi, mapHandler){
         super(container);
         this.render(PinCreator.markup());
         this.trackSearch = this.getChild("#track-search");
@@ -9,6 +9,7 @@ class PinCreator extends Component{
         this.createButton = this.getChild(".pin-create");
         this.cancelButton = this.getChild(".cancel");
         this.spotifyApi = spotifyApi;
+        this.mapHandler = mapHandler;
         this.coords = [];
         this.addEventListeners();
     }
@@ -34,6 +35,8 @@ class PinCreator extends Component{
         ).then(res => {
             console.log(res.data);
             console.log(res.status, res.data.title)
+            let pin = res.data;
+            this.mapHandler.createMarker(pin);
         }));
         
     }

@@ -5,17 +5,17 @@ class App {
         // })
         // req.send();
         const spotifyApi = new SpotifyAPI();
+        const mapHandler = new MapHandler();
 
         const creatorDiv = document.querySelector(".pin-creator");
-        const pinCreator = new PinCreator(creatorDiv, spotifyApi);
+        const pinCreator = new PinCreator(creatorDiv, spotifyApi, mapHandler);
 
-        const mapHandler = new MapHandler();
-        mapHandler.createMarker();
-        // mapHandler.addEventListener("singleclick", (event) => {
-        //     creatorDiv.classList.add("visible");
-        //     let coords = ol.coordinate.toStringHDMS(event.coordinate);
-        //     pinCreator.setCoords(coords);
-        // })
+        //mapHandler.createMarker([0,0]);
+        mapHandler.addEventListener("singleclick", (event) => {
+            creatorDiv.classList.add("visible");
+            //let coords = ol.coordinate.toStringHDMS(event.coordinate);
+            pinCreator.setCoords(event.coordinate);
+        })
         //mapHandler.onClick = pinCreator.toggleVisibility();
 
         // const searchbox = document.querySelector(".searchbox input");
