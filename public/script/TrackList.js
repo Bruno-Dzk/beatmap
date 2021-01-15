@@ -3,27 +3,22 @@ class TrackList{
         this.container = container;
         this.tracks = [];
         this.selected = null;
-    }
-    _parseArtists(trackData){
-        let listStr = "";
-        let counter = 0;
-        for(const artist of trackData.artists){
-            if (counter++)
-                listStr += ", ";
-            listStr += artist.name;
-        }
-        return listStr;
+        this.trackItems = [];
     }
     _addItem(trackData){
         let itemDiv = document.createElement('div');
         itemDiv.classList.add("track");
         this.container.append(itemDiv);
+        let artistsString = "";
+        for(const artist of trackData.artists){
+            artistsString += artist + " ";
+        }
         const item = new Track(
             itemDiv,
-            trackData.id,
+            trackData.track_id,
             trackData.name,
-            this._parseArtists(trackData),
-            trackData.album.images[2].url
+            trackData.artists,
+            trackData.imgURL
         );
         this.trackItems.push(item);
         item.addEventListener("click", () => {
@@ -34,13 +29,16 @@ class TrackList{
             item.toggleSelected();
         });
     }
-    async update(dataPromise){
-        const data = await dataPromise;
-        this.trackItems = [];
-        this.container.innerHTML = "";
-        for(const trackData of data.tracks.items){
-            this._addItem(trackData);
-        }
+    update(query){
+        fetch(
+            "http://localhost:8080/searchTracks?query="+query 
+        )
+        .then(response => response.json())
+        .then(data => {
+            for(const track of data){
+                this._addItem(track);
+            }
+        });
     }
     getSelected(){
         return this.selected;

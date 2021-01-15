@@ -16,4 +16,5 @@
 node_modules
 build
 
-config.php
+postgresql_config.php
+spotify_config.php

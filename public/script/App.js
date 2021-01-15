@@ -4,11 +4,10 @@ class App {
         //     console.log(response);
         // })
         // req.send();
-        const spotifyApi = new SpotifyAPI();
         const mapHandler = new MapHandler();
 
         const creatorDiv = document.querySelector(".pin-creator");
-        const pinCreator = new PinCreator(creatorDiv, spotifyApi, mapHandler);
+        const pinCreator = new PinCreator(creatorDiv, mapHandler);
 
         //mapHandler.createMarker([0,0]);
         mapHandler.addEventListener("singleclick", (event) => {

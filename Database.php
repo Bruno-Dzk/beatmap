@@ -1,6 +1,6 @@
 <?php
 
-require_once 'config.php';
+require_once 'postgresql_config.php';
 
 class Database{
     private $username;
@@ -12,7 +12,7 @@ class Database{
         $this->username = USERNAME;
         $this->password = PASSWORD;
         $this->host = HOST;
-        $this->database = USERNAME;
+        $this->database = DATABASE;
     }
 
     public function connect(){

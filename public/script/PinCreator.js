@@ -1,24 +1,23 @@
-const CREATE_PIN_URL = "http://localhost:8080/pin";
+const CREATE_PIN_URL = "http://localhost:8080/addPin";
 
 class PinCreator extends Component{
-    constructor(container, spotifyApi, mapHandler){
+    constructor(container, mapHandler){
         super(container);
         this.render(PinCreator.markup());
         this.trackSearch = this.getChild("#track-search");
         this.trackList = new TrackList(this.getChild(".track-list"));
         this.createButton = this.getChild(".pin-create");
         this.cancelButton = this.getChild(".cancel");
-        this.spotifyApi = spotifyApi;
         this.mapHandler = mapHandler;
         this.coords = [];
         this.addEventListeners();
     }
     createPin(track){
         let data = {
-            trackID: track.id,
-            coords: this.coords,
-            authorID: "A31iyf1u12gi1p" 
+            track_id: track.id,
+            coords: this.coords
         };
+        console.log(data);
         fetch(
             CREATE_PIN_URL,
             {
@@ -27,26 +26,19 @@ class PinCreator extends Component{
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
-        }).then(response => 
-            response.json().then(data => ({
-                data: data,
-                status: response.status
-            })
-        ).then(res => {
-            console.log(res.data);
-            console.log(res.status, res.data.title)
-            let pin = res.data;
-            this.mapHandler.createMarker(pin);
-        }));
-        
+        })
+        .then(response => {
+            console.log(response);
+        })
     }
     addEventListeners(){
         this.trackSearch.addEventListener("input", (event) => {
             let query = event.target.value;
-            this.trackList.update(this.spotifyApi.search(query));
+            this.trackList.update(query);
         });
         this.createButton.addEventListener("click", () => {
             let track = this.trackList.getSelected();
+            console.log(track);
             this.createPin(track);
             this.container.classList.remove("visible");
         });
