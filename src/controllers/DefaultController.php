@@ -1,12 +1,15 @@
 <?php
 
-class DefaultController{
-    public function index(){
-        readfile("public/index.html");
+require_once "AppSecureController.php";
+
+class DefaultController extends AppSecureController{
+    public function __construct()
+    {
+        parent::__construct();
     }
 
-    public function test(){
-        session_start();
-        var_dump($_SESSION['test']);
+    public function index(){
+        $this->authorizeRender();
+        readfile("public/index.html");
     }
 }
