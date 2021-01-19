@@ -28,7 +28,7 @@ function showPinViewer(pin){
     .then(track => {
         name.innerHTML = track.name;
         artists.innerHTML = artistsToString(track.artists);;
-        app_user.innerHTML = pin.user.username;
+        app_user.innerHTML = pin.username;
         likes.innerHTML = pin.no_likes;
         dislikes.innerHTML = pin.no_dislikes;
         img.src = track.imgURL;

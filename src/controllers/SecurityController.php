@@ -105,5 +105,14 @@ class SecurityController extends AppController{
             die("Could not refresh login!");
         }
     }
+
+    public function logout(){
+        if(isset($_COOKIE["login_cookie"])){
+            unset($_COOKIE['login_cookie']); 
+        }
+        $this->loginRepository->expireLogin($this->currentLogin->getID());
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/login");
+    }
 }
 

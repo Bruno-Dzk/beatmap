@@ -1,6 +1,10 @@
 const usernameInput = document.querySelector("#username");
 const passwordInput = document.querySelector("#password");
-const repeatedPasswordInput  = document.querySelector("#repeated_password");
+const repeatedPasswordInput = document.querySelector("#repeated_password");
+const messageDiv = document.querySelector("#message");
+
+const passwdDoNotMatchMsg = document.createElement("P");
+passwdDoNotMatchMsg.innerHTML = "Passwords do not match.";
 
 var repeatedPasswdTimeout = null;
 
@@ -19,7 +23,7 @@ repeatedPasswordInput.addEventListener("input", function(){
         )){
             passwordInput.classList.add("invalid");
             repeatedPasswordInput.classList.add("invalid");
-            console.log("Passwords do not match");
+            messageDiv.append(passwdDoNotMatchMsg);
         }
     }, 1000);
 })

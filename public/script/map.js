@@ -28,8 +28,7 @@ function createMarker(pin){
     });
 
     let src = '';
-    console.log(pin.user.verified);
-    if(pin.user.verified)
+    if(pin.verified)
         src = 'public/img/verified_marker.png';
     else
         src = 'public/img/marker.png';  

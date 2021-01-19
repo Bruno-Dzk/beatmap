@@ -80,6 +80,7 @@ form input[type=text], form input[type=password] {
 }
 
 form #register-link, form input[type=submit] {
+  cursor: pointer;
   text-transform: uppercase;
   background-color: black;
   color: white;

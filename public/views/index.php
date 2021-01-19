@@ -13,6 +13,7 @@
     </head>
     <body>
         <header class="header">
+            <a class="logout" href="logout"><span class="material-icons">exit_to_app</span> Logout</a>
             <h1>Beatmap</h1>
         </header>
         <div class="main">

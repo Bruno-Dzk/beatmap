@@ -4,10 +4,10 @@ class Login{
     const EXPIRATION_TIME = 5 * 60; //5 minutes
     const REFRESH_TIME = 5 * 60; //5 minutes
 
-    private $id;
-    private $key;
-    private $user_id;
-    private $expired;
+    private $id = "";
+    private $key = "";
+    private $user_id = "";
+    private $expired = true;
 
     public function __construct($id, $key, $user_id, $expired=false)
     {

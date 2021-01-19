@@ -1,6 +1,6 @@
 <?php
 
-class User implements JsonSerializable{
+class User{
     private $id = "";
     private $username = "";
     private $password = "";
@@ -27,11 +27,5 @@ class User implements JsonSerializable{
 
     public function isVerified(){
         return $this->verified;
-    }
-
-    public function jsonSerialize()
-    {
-        $vars = get_object_vars($this);
-        return $vars;
     }
 }

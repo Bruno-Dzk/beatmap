@@ -5,22 +5,10 @@ require_once "src/models/Pin.php";
 
 class PinRepository extends Repository{
 
-    private $userRepository;
-
     public function __construct()
     {
         parent::__construct();
         $this->userRepository = new UserRepository();
-    }
-    
-    private function getCoords($coordinates_id){
-        $statement = $this->database->connect()->prepare('
-            SELECT * FROM public.coordinates WHERE coordinates_id = :coordinates_id
-        ');
-        $statement->bindParam(':coordinates_id', $coordinates_id, PDO::PARAM_STR);
-        $statement->execute();
-
-        return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
     public function addPin($pin){
@@ -46,30 +34,26 @@ class PinRepository extends Repository{
             $pin->getNoDislikes(),
             $pin->getVerified()
         ]);
-        //$pin = $statement->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getPinsInExtent($extent){
         $statement = $this->database->connect()->prepare('
-            SELECT * FROM get_pins_in_extent(?, ?, ?, ?);
+            select * from public.coords_in_extent(?, ?, ?, ?) natural inner join pin left join app_user on(pin.app_user_id = app_user.app_user_id);
         ');
-        //$statement->bindParam();
         $statement->execute($extent);
 
-        $pins = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $assocs = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         $pinObjects = array();
-        foreach($pins as $pin){
-            $coords = $this->getCoords($pin['coordinates_id']);
-
+        foreach($assocs as $assoc){
             array_push($pinObjects, new Pin(
-                $pin["pin_id"],
-                $pin["track_id"],
-                [$coords["x"], $coords["y"]],
-                $this->userRepository->getUserByID($pin['app_user_id']),
-                $pin["no_likes"],
-                $pin["no_dislikes"],
-                $pin["verified"]
+                $assoc["pin_id"],
+                $assoc["track_id"],
+                [$assoc["x"], $assoc["y"]],
+                $assoc["username"],
+                $assoc["no_likes"],
+                $assoc["no_dislikes"],
+                $assoc["verified"]
             ));
         }
 
@@ -79,25 +63,25 @@ class PinRepository extends Repository{
     public function getPin($pin_id): ?Pin{
         $statement = $this->database->connect()->prepare('
             SELECT * FROM public.pin WHERE pin_id = :pin_id
+            NATURAL INNER JOIN public.coordinates, public.app_user;
         ');
         $statement->bindParam(':pin_id', $pin_id, PDO::PARAM_STR);
         $statement->execute();
 
-        $pin = $statement->fetch(PDO::FETCH_ASSOC);
+        $assoc = $statement->fetch(PDO::FETCH_ASSOC);
 
-        if (!$pin) {
+        if (!$assoc) {
             return null;
         }
-        $coords = $this->getCoords($pin['coordinates_id']);
 
         return new Pin(
-            $pin["pin_id"],
-            $pin["track_id"],
-            [$coords["x"], $coords["y"]],
-            $this->userRepository->getUserByID($pin['app_user_id']),
-            $pin["no_likes"],
-            $pin["no_dislikes"],
-            $pin["verified"]
+            $assoc["pin_id"],
+            $assoc["track_id"],
+            [$assoc["x"], $assoc["y"]],
+            $assoc["username"],
+            $assoc["no_likes"],
+            $assoc["no_dislikes"],
+            $assoc["verified"]
         );
     }
 }

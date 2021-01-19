@@ -57,4 +57,14 @@ class LoginRepository extends Repository{
         $statement->bindParam(':login_id', $login_id, PDO::PARAM_STR);
         $statement->execute();
     }
+
+    public function expireLogin($login_id){
+        $statement = $this->database->connect()->prepare('
+            UPDATE logins
+            SET expiry_time = NOW()
+            WHERE login_id = :login_id;
+        ');
+        $statement->bindParam(':login_id', $login_id, PDO::PARAM_STR);
+        $statement->execute();
+    }
 }
