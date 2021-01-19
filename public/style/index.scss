@@ -1,7 +1,8 @@
 @import "common";
 
-a{
+a, a:visited{
     text-decoration: none;
+    color: inherit;
 }
 
 html{
@@ -30,7 +31,7 @@ body{
 
 .header{
     background-color: $accent-color;
-    color: $teritary-font-color;
+    color: $header-font-color;
     flex: 0 0 48px;
     text-transform: uppercase;
     display: flex;
@@ -52,7 +53,6 @@ body{
         height: 100%;
         display: flex;
         align-items: center;
-        color: $teritary-font-color;
 
         span{
             margin-right: 5px;
@@ -88,7 +88,7 @@ body{
 
 .button{
     height: 100%;
-    background-color: $auxiliary-color;
+    background-color: $button-color;
     border-radius: 10px;
     color: $button-font-color;
     font-family: $primary-font-family;
@@ -159,7 +159,7 @@ body{
             grid-area: artists;
         }
         .pin-author{
-            color: $secondary-font-color;
+            color: $accent-font-color;
             grid-area: author;
         }
         .pin-likes{
@@ -214,7 +214,7 @@ body{
     }
     
     .box-desc{
-        color: $secondary-font-color;
+        color: $accent-font-color;
         font-family: $primary-font-family;
         font-weight: bold;
         margin: 5px 0;
@@ -283,7 +283,7 @@ body{
 }
 
 .track-selected{
-    color: $secondary-font-color;
+    color: $accent-font-color;
 
     .track-desc{
         .track-selected-label{

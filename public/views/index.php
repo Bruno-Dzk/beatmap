@@ -39,7 +39,7 @@
                 <div class="button-box">
                     <div class="button pin-like"><span class="material-icons">favorite_border</span></div>
                     <div class="button pin-dislike"><span class="material-icons">sentiment_very_dissatisfied</span></div>
-                    <div class="button pin-open">Open in spotify</div>
+                    <div class="button pin-open"><a class="spotify-link" target="_blank">Open in spotify</a></div>
                     <div class="button pin-save">Save</div>
                 </div>
             </div>

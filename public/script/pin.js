@@ -2,6 +2,7 @@ const APP_URL = window.location.protocol + "//" + window.location.host;
 const TRACK_URL = APP_URL + "/track";
 const LONLAT_PRECISION = 3;
 const CREATE_PIN_URL = APP_URL + "/addPin";
+const SPOTIFY_OPEN_URL = "https://open.spotify.com/track";
 
 const pinCreator = document.querySelector(".pin-creator");
 const pinViewer = document.querySelector(".pin-viewer");
@@ -26,6 +27,7 @@ function showPinViewer(pin){
     const likes = pinViewer.querySelector(".pin-no-likes");
     const dislikes = pinViewer.querySelector(".pin-no-dislikes");
     const img = pinViewer.querySelector(".track-image");
+    const spotifyLink = pinViewer.querySelector(".spotify-link");
     let lonlat = pinViewer.querySelector(".lonlat-header");
     setLonlat(lonlat, pin.coords[1], pin.coords[0]);
     fetch(TRACK_URL + "/" + pin.track_id)
@@ -38,6 +40,7 @@ function showPinViewer(pin){
                 app_user.innerHTML = pin.username;
                 likes.innerHTML = pin.no_likes;
                 dislikes.innerHTML = pin.no_dislikes;
+                spotifyLink.href = SPOTIFY_OPEN_URL + "/" + track.track_id;
                 img.src = track.imgURL;
             }).then(() => {
                 pinViewer.classList.add("visible");
