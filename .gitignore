@@ -1,0 +1,20 @@
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+
+node_modules
+build
+
+postgresql_config.php
+spotify_config.php

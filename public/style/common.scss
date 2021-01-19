@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap');
+
+$primary-font-family: 'Roboto', sans-serif;
+$logo-font-family: 'Nunito', sans-serif;
+$primary-color: white;
+$button-color:#EEE5E9;
+$accent-color: #1EC589;
+$bg-color: black;
+$action-color: #EB5757;
+
+$primary-font-color: white;
+$accent-font-color: #1EC589;
+$header-font-color: black;
+$button-font-color: black;
+
+.logo{
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: $logo-font-family;
+}
