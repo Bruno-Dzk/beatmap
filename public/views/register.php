@@ -12,17 +12,20 @@
     <body>
         <div class="main">
             <h1 class="logo">Beatmap</h1>
-            <form action="login" method="POST">
+            <form action="register" method="POST">
                 <div class="labeled-input">
                     <label>Username</label>
-                    <input type="text" name="username" id="username" autocomplete="false">
+                    <input type="text" name="username" id="username" autocomplete="false"autocomplete="chrome-off">
                 </div>
                 <div class="labeled-input">
                     <label>Password</label>
-                    <input type="password" name="password" id="password" autocomplete="false">
+                    <input type="password" name="password" id="password" autocomplete="false"autocomplete="chrome-off">
                 </div>
-                <input type="submit" name="sign_in" id="sign_in" value="Sign in">
-                <a id="register-link" href="register">Sign up</a>
+                <div class="labeled-input">
+                    <label>Repeat password</label>
+                    <input type="password" name="repeatedPassword" id="repeated_password" autocomplete="false" autocomplete="chrome-off">
+                </div>
+                <input type="submit" name="sign_up" id="sign_up" value="Sign up">
             </form>
             <div id="message">
                 <?php
@@ -35,5 +38,6 @@
             </div>
         </div>     
         <div class="gradient-overlay"></div>
+        <script src="public/script/validation.js" type="text/javascript"></script>
     </body>
 </html>

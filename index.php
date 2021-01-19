@@ -16,6 +16,7 @@ Router::post('addPin', 'PinController');
 Router::get('searchTracks', 'TrackController');
 Router::get('track', 'TrackController');
 Router::post('login', 'SecurityController');
+Router::post('register', 'SecurityController');
 Router::post('refresh', 'SecurityController');
 // $pc = new PinController();
 // Router::get('/pin', 'POST', array("PinController", "createPin"));

@@ -4,16 +4,16 @@ class Pin implements JsonSerializable{
     private $pin_id = "";
     private $track_id = "";
     private $coords = [0.0, 0.0];
-    private $app_user_id = "";
+    private $user = "";
     private $no_likes = 0;
     private $no_dislikes = 0;
     private $verified = false;
 
-    public function __construct($pin_id, $track_id, $coords, $app_user_id, $no_likes, $no_dislikes, $verified){
+    public function __construct($pin_id, $track_id, $coords, $user, $no_likes, $no_dislikes, $verified){
         $this->pin_id = $pin_id;
         $this->track_id = $track_id;
         $this->coords = $coords;
-        $this->app_user_id = $app_user_id;
+        $this->user = $user;
         $this->no_likes = $no_likes;
         $this->no_dislikes = $no_dislikes;
         $this->verified = $verified;
@@ -27,8 +27,8 @@ class Pin implements JsonSerializable{
         return $this->track_id;
     }
     
-    public function getAppUserID(){
-        return $this->app_user_id;
+    public function getUser(){
+        return $this->user;
     }
 
     public function getCoords(){
@@ -54,6 +54,11 @@ class Pin implements JsonSerializable{
     public function jsonSerialize()
     {
         $vars = get_object_vars($this);
+        foreach ($vars as &$value) {
+            if (is_object($value) && method_exists($value,'getJsonData')) {
+                $value = $value->getJsonData();
+            }
+        }
         return $vars;
     }
 }

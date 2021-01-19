@@ -51,7 +51,7 @@ form {
   font-family: "Roboto", sans-serif;
 }
 
-form input, form button {
+form input, form #register-link {
   font-family: "Roboto", sans-serif;
   background: none;
   background-image: none;
@@ -79,13 +79,27 @@ form input[type=text], form input[type=password] {
   margin-top: 5px;
 }
 
-form button, form input[type=submit] {
+form #register-link, form input[type=submit] {
   text-transform: uppercase;
   background-color: black;
   color: white;
 }
 
+form #register-link {
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 form #sign_in {
+  cursor: pointer;
   font-weight: bold;
 }
 
@@ -102,6 +116,25 @@ form #sign_in {
           align-items: center;
 }
 
+a {
+  text-decoration: none;
+}
+
+#message {
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  height: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 @media only screen and (max-width: 480px) {
   .logo {
     height: 200px;
@@ -111,8 +144,34 @@ form #sign_in {
     padding: 50px;
     gap: 30px;
   }
-  form input, form button {
+  form input, form #register-link {
     height: 48px;
   }
+}
+
+@media only screen and (min-width: 768px) {
+  .logo {
+    height: 200px;
+    font-size: 36px;
+  }
+  form {
+    padding: 0 50px;
+    gap: 30px;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    font-size: 18px;
+  }
+  form input, form #register-link {
+    width: 360px;
+    height: 48px;
+  }
+  form .labeled-input {
+    width: 360px;
+  }
+}
+
+.invalid {
+  background-color: #EB5757;
 }
 /*# sourceMappingURL=sign.css.map */

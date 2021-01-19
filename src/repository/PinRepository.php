@@ -4,6 +4,14 @@ require_once "Repository.php";
 require_once "src/models/Pin.php";
 
 class PinRepository extends Repository{
+
+    private $userRepository;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->userRepository = new UserRepository();
+    }
     
     private function getCoords($coordinates_id){
         $statement = $this->database->connect()->prepare('
@@ -33,7 +41,7 @@ class PinRepository extends Repository{
             $pin->getPinID(),
             $pin->getTrackID(),
             $coordsUUID,
-            $pin->getAppUserID(),
+            $pin->getUser()->getID(),
             $pin->getNoLikes(),
             $pin->getNoDislikes(),
             $pin->getVerified()
@@ -58,7 +66,7 @@ class PinRepository extends Repository{
                 $pin["pin_id"],
                 $pin["track_id"],
                 [$coords["x"], $coords["y"]],
-                $pin["app_user_id"],
+                $this->userRepository->getUserByID($pin['app_user_id']),
                 $pin["no_likes"],
                 $pin["no_dislikes"],
                 $pin["verified"]
@@ -86,7 +94,7 @@ class PinRepository extends Repository{
             $pin["pin_id"],
             $pin["track_id"],
             [$coords["x"], $coords["y"]],
-            $pin["app_user_id"],
+            $this->userRepository->getUserByID($pin['app_user_id']),
             $pin["no_likes"],
             $pin["no_dislikes"],
             $pin["verified"]

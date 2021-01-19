@@ -20,12 +20,15 @@ function showPinViewer(pin){
     const likes = pinViewer.querySelector(".pin-no-likes");
     const dislikes = pinViewer.querySelector(".pin-no-dislikes");
     const img = pinViewer.querySelector(".track-image");
+    let lonlat = pinViewer.querySelector(".lonlat-header");
+    lonlat.innerHTML = parseFloat(pin.coords[1]).toFixed(LONLAT_PRECISION) + "°N "
+                        + parseFloat(pin.coords[0]).toFixed(LONLAT_PRECISION) + "°W";
     fetch(TRACK_URL + "/" + pin.track_id)
     .then(response => response.json())
     .then(track => {
         name.innerHTML = track.name;
         artists.innerHTML = artistsToString(track.artists);;
-        app_user.innerHTML = pin.app_user_id;
+        app_user.innerHTML = pin.user.username;
         likes.innerHTML = pin.no_likes;
         dislikes.innerHTML = pin.no_dislikes;
         img.src = track.imgURL;
@@ -72,7 +75,9 @@ pinCreateButton.addEventListener("click", function(){
                 body: JSON.stringify(data)
         })
         .then(response => {
-            console.log(response);
+            if(response.ok){
+                refreshMap();
+            }
         })
     }
 })

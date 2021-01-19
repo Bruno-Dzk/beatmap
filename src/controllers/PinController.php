@@ -41,7 +41,8 @@ class PinController extends AppSecureController{
             http_response_code(400);
             return;
         }
-        $pin = new Pin(uniqid("pin"), $data->track_id, $data->coords, "test_user", 0, 0, true);
+        $user = $this->securityController->getLoggedUser();
+        $pin = new Pin(uniqid("pin"), $data->track_id, $data->coords, $user, 0, 0, true);
         $this->pin_repository->addPin($pin);
     }
 }

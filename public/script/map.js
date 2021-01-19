@@ -28,7 +28,8 @@ function createMarker(pin){
     });
 
     let src = '';
-    if(pin.verified)
+    console.log(pin.user.verified);
+    if(pin.user.verified)
         src = 'public/img/verified_marker.png';
     else
         src = 'public/img/marker.png';  
@@ -49,27 +50,7 @@ function createMarker(pin){
     vectorSource.addFeature(iconFeature);
 }
 
-map.on("singleclick", (event) => {
-    if(map.hasFeatureAtPixel(event.pixel) === true){
-        const features = map.getFeaturesAtPixel(event.pixel);
-        const pin = features[0].attributes.pin;
-        showPinViewer(pin);
-    }else{
-        hidePinViewer();
-    }
-})
-map.on("dblclick", (event) => {
-    const coords = ol.proj.toLonLat(event.coordinate);
-    showPinCreator(coords);
-})
-
-function convertRectLonLat(extent){
-    let begin = extent.slice(0, 2);
-    let end = extent.slice(2);
-    return ol.proj.toLonLat(begin).concat(ol.proj.toLonLat(end));
-}
-
-map.on("moveend", () => {
+function refreshMap(){
     let extent = map.getView().calculateExtent(map.getSize());
     extent = convertRectLonLat(extent);
     console.log(extent);
@@ -87,4 +68,38 @@ map.on("moveend", () => {
                 createMarker(pin);
             }
         });
+}
+
+map.on("singleclick", (event) => {
+    if(map.hasFeatureAtPixel(event.pixel) === true){
+        const features = map.getFeaturesAtPixel(event.pixel);
+        const pin = features[0].attributes.pin;
+        showPinViewer(pin);
+        hidePinCreator();
+    }else{
+        hidePinViewer();
+        const coords = ol.proj.toLonLat(event.coordinate);
+        showPinCreator(coords);
+    }
+})
+
+map.on("pointermove", function (evt) {
+    var hit = this.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
+        return true;
+    }); 
+    if (hit) {
+        this.getTargetElement().style.cursor = 'pointer';
+    } else {
+        this.getTargetElement().style.cursor = '';
+    }
+});
+
+function convertRectLonLat(extent){
+    let begin = extent.slice(0, 2);
+    let end = extent.slice(2);
+    return ol.proj.toLonLat(begin).concat(ol.proj.toLonLat(end));
+}
+
+map.on("moveend", () => {
+    refreshMap();
 })

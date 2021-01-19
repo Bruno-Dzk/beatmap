@@ -9,41 +9,44 @@ require_once "src/repository/LoginRepository.php";
 class SecurityController extends AppController{
     private $userRepository;
     private $loginRepository;
+    private $currentUser = null;
+    private $currentLogin = null;
 
     public function __construct(){
         parent::__construct();
         $this->userRepository = new UserRepository();
         $this->loginRepository = new LoginRepository();
+        $this->loadLoginCookie();
     }
 
-    private function getLoginData(){
+    private function loadLoginCookie(){
         if (!isset($_COOKIE['login_cookie'])){
-            return false;
+            return;
         }
         $vars = explode(":", $_COOKIE['login_cookie']);
         $username = $vars[0];
         $key = $vars[1];
-        $user = $this->userRepository->getUserByUsername($username);
-        $login = $this->loginRepository->getLoginByKey($key);
-        return ["user" => $user, "login" => $login];
+        $this->currentUser = $this->userRepository->getUserByUsername($username);
+        $this->currentLogin = $this->loginRepository->getLoginByKey($key);
     }
 
-    static private function checkLoginData($loginData){
-        if($loginData["login"] === null){
+    public function authorize(){
+        if($this->currentUser === null || $this->currentLogin === null){
             return false;
         }
-        if($loginData["login"]->getUserID() != $loginData["user"]->getID()){
+        if($this->currentLogin->getUserID() != $this->currentUser->getID()){
             return false;
         }
-        if($loginData["login"]->hasExpired()){
+        if($this->currentLogin->hasExpired()){
             return false;
         }
         return true;
     }
 
-    public function authorize(){
-        $loginData = $this->getLoginData();
-        return SecurityController::checkLoginData($loginData);
+    public function getLoggedUser(){
+        if($this->authorize()){
+            return $this->currentUser;
+        }
     }
 
     public function login(){
@@ -71,15 +74,35 @@ class SecurityController extends AppController{
         header("Location: {$url}");
     }
 
+    public function register(){
+        if($this->request !== 'POST'){
+            return $this->render('register');
+        }
+
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $repeatedPassword = $_POST['repeatedPassword'];
+
+        if($username === "" || $password === "" || $repeatedPassword === ""){
+            die('Some required fields were empty strings.');
+        }
+
+        if ($password !== $repeatedPassword) {
+            return $this->render('register', ['messages' => ['Passwords do not match.']]);
+        }
+
+        $user = new User(uniqid("user"), $username, password_hash($password, PASSWORD_BCRYPT));
+        $this->userRepository->addUser($user);
+        $url = "http://$_SERVER[HTTP_HOST]";
+        header("Location: {$url}/login");
+    }
+
     public function refresh(){
-        $loginData = $this->getLoginData();
-        var_dump(SecurityController::checkLoginData($loginData));
-        if(SecurityController::checkLoginData($loginData)){
-            $login = $loginData['login']->getID();
-            $this->loginRepository->refresh($login);
+        if($this->authorize()){
+            $this->loginRepository->refresh($this->currentLogin->getID());
         }else{
             http_response_code(401);
-            die("Cannot refresh login!");
+            die("Could not refresh login!");
         }
     }
 }

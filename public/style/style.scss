@@ -28,8 +28,14 @@ body{
     overflow: hidden;
 }
 
-.map{
+.main{
     flex: 1;
+    position: relative;
+}
+
+.map{
+    width: 100%;
+    height: 100%;
 }
 
 .header{
@@ -45,7 +51,6 @@ body{
 }
 
 .lonlat-header{
-    font-size: 0.6em;
     width: 100%;
     text-align: center;
     color: $primary-font-color;
@@ -55,11 +60,15 @@ body{
 .track-list{
     border-top: 2px solid $primary-color;
     border-bottom: 2px solid $primary-color;
-    height: 256px;
+    flex: 1;
     overflow-y: scroll;
     overflow-x: hidden;
-    scrollbar-width: thin;
+    scrollbar-width: none;  /* Firefox */
 }
+
+.track-list::-webkit-scrollbar {
+    display: none;
+  }
 
 .button-box{
     display: flex;
@@ -73,7 +82,6 @@ body{
     border-radius: 10px;
     color: $button-font-color;
     font-family: $primary-font-family;
-    font-size: 0.5em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,6 +89,7 @@ body{
     font-weight: bold;
     height: 32px;
     flex-grow: 1;
+    cursor: pointer;
 }
 
 .pin-create{
@@ -107,27 +116,34 @@ body{
     }
 
     .pin-data{
-        color: $primary-font-color;
-        font-family: $primary-font-family;
+        display: flex;
         height: 64px;
-        display: grid;
-        font-size: 0.6em;
-        grid-template-columns: 64px 3fr 1fr 1fr;
-        gap: 10px;
-        grid-template-areas: 
-            "image name name name"
-            "image artists artists artists"
-            "image author like dislike";
+        gap: 16px;
+
+        .pin-desc{
+            font-size: 14px;
+            flex: 1;
+            color: $primary-font-color;
+            font-family: $primary-font-family;
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr;
+            grid-template-areas: 
+                "name name name"
+                "artists artists artists"
+                "author like dislike";
+        }
 
         .track-image{
-            grid-area: image;
-            width: 100%;
-            height: 100%;
+            width: 64px;
+            height: 64px;
         }
         .track-name{
-            font-size: 1.2em;
+            font-size: 1.4em;
             font-weight: bold;
             grid-area: name;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
         .track-artists{
             grid-area: artists;
@@ -169,10 +185,8 @@ body{
     padding: 20px;
     box-sizing: border-box;
     justify-content: space-between;
-}
-
-.visible{
-    bottom: 0;
+    font-size: 14px;
+    gap: 15px;
 }
 
 .box-header{
@@ -186,14 +200,15 @@ body{
         font-family: $primary-font-family;
         font-weight: bold;
         margin: 5px 0;
+        font-size: 1.7em;
     }
     
     .box-desc{
         color: $secondary-font-color;
         font-family: $primary-font-family;
         font-weight: bold;
-        font-size: 0.6em;
         margin: 5px 0;
+        line-height: 16px;
     }
 }
 
@@ -202,7 +217,6 @@ body{
     background-color: transparent;
     border: none;
     color: white;
-    font-size: 0.6em;
     font-family: $primary-font-family;
     background-color: #323232;
     padding: 5px;
@@ -210,6 +224,7 @@ body{
 }
 
 .track{
+    cursor: pointer;
     min-width: 100%;
     margin: 15px 0;
     color: $primary-font-color;
@@ -232,17 +247,16 @@ body{
         margin-left: 10px;
 
         .track-title{
-            font-size: 0.75em;
             font-weight: bold;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
             display: block;
-            width: 100%;;
+            width: 100%;
+            font-size: 1.3em;
         }
     
         .track-artists{
-            font-size: 0.6em;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
@@ -251,7 +265,6 @@ body{
         }
     
         .track-selected-label{
-            font-size: 0.6em;
             overflow: hidden;
             display: none;
             width: 100%;
@@ -270,10 +283,7 @@ body{
 }
 
 
-@media only screen and (max-width: 480px) {
-    body{
-        font-size: 24px;
-    }
+@media only screen and (max-width: 768px) {
 
     .track{
         height: 64px;
@@ -290,3 +300,54 @@ body{
         }
     }
   }
+
+@media only screen and (min-width: 768px) {
+
+    .pin-viewer{
+        width: 375px;
+        left: 16px;
+        padding: 20px;
+        gap: 16px;
+        border-radius: 25px;
+        font-size: 14px;
+
+        .pin-desc{
+            grid-template-columns: 64px 3fr 1fr 1fr;
+            grid-template-rows: 24px 20px 20px;
+            column-gap: 20px;
+        }
+
+        .button{
+            font-size: 0.85em;
+        }
+    }
+    .pin-creator{
+        width: 375px;
+        height: 100%;
+        bottom: -100%;
+        box-sizing: border-box;
+        font-size: 12px;
+        gap: 10px;
+
+        .lonlat-header{
+            font-size: 1.2em;
+        }
+
+        .box-title{
+            font-size: 1.2em;
+        }
+
+        .box-desc{
+            line-height: 14px;
+        }
+    }
+
+    .track-title{
+        font-size: 1.2em;
+    }
+}
+
+.visible{
+    bottom: 0;
+}
+  

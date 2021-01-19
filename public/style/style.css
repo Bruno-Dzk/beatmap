@@ -19,10 +19,16 @@ body {
   overflow: hidden;
 }
 
-.map {
+.main {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
+  position: relative;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
 }
 
 .header {
@@ -46,7 +52,6 @@ body {
 }
 
 .lonlat-header {
-  font-size: 0.6em;
   width: 100%;
   text-align: center;
   color: white;
@@ -56,10 +61,17 @@ body {
 .track-list {
   border-top: 2px solid white;
   border-bottom: 2px solid white;
-  height: 256px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   overflow-y: scroll;
   overflow-x: hidden;
-  scrollbar-width: thin;
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.track-list::-webkit-scrollbar {
+  display: none;
 }
 
 .button-box {
@@ -78,7 +90,6 @@ body {
   border-radius: 10px;
   color: black;
   font-family: "Roboto", sans-serif;
-  font-size: 0.5em;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -94,6 +105,7 @@ body {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
+  cursor: pointer;
 }
 
 .pin-create {
@@ -130,39 +142,47 @@ body {
 }
 
 .pin-viewer .pin-data {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 64px;
+  gap: 16px;
+}
+
+.pin-viewer .pin-data .pin-desc {
+  font-size: 14px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   color: white;
   font-family: "Roboto", sans-serif;
-  height: 64px;
   display: -ms-grid;
   display: grid;
-  font-size: 0.6em;
-  -ms-grid-columns: 64px 3fr 1fr 1fr;
-      grid-template-columns: 64px 3fr 1fr 1fr;
-  gap: 10px;
-      grid-template-areas: "image name name name" "image artists artists artists" "image author like dislike";
+  -ms-grid-columns: 3fr 1fr 1fr;
+      grid-template-columns: 3fr 1fr 1fr;
+      grid-template-areas: "name name name" "artists artists artists" "author like dislike";
 }
 
 .pin-viewer .pin-data .track-image {
-  -ms-grid-row: 1;
-  -ms-grid-row-span: 3;
-  -ms-grid-column: 1;
-  grid-area: image;
-  width: 100%;
-  height: 100%;
+  width: 64px;
+  height: 64px;
 }
 
 .pin-viewer .pin-data .track-name {
-  font-size: 1.2em;
+  font-size: 1.4em;
   font-weight: bold;
   -ms-grid-row: 1;
-  -ms-grid-column: 2;
+  -ms-grid-column: 1;
   -ms-grid-column-span: 3;
   grid-area: name;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .pin-viewer .pin-data .track-artists {
   -ms-grid-row: 2;
-  -ms-grid-column: 2;
+  -ms-grid-column: 1;
   -ms-grid-column-span: 3;
   grid-area: artists;
 }
@@ -170,19 +190,19 @@ body {
 .pin-viewer .pin-data .pin-author {
   color: #1EC589;
   -ms-grid-row: 3;
-  -ms-grid-column: 2;
+  -ms-grid-column: 1;
   grid-area: author;
 }
 
 .pin-viewer .pin-data .pin-likes {
   -ms-grid-row: 3;
-  -ms-grid-column: 3;
+  -ms-grid-column: 2;
   grid-area: like;
 }
 
 .pin-viewer .pin-data .pin-dislikes {
   -ms-grid-row: 3;
-  -ms-grid-column: 4;
+  -ms-grid-column: 3;
   grid-area: dislike;
 }
 
@@ -223,10 +243,8 @@ body {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-}
-
-.visible {
-  bottom: 0;
+  font-size: 14px;
+  gap: 15px;
 }
 
 .box-header {
@@ -247,14 +265,15 @@ body {
   font-family: "Roboto", sans-serif;
   font-weight: bold;
   margin: 5px 0;
+  font-size: 1.7em;
 }
 
 .box-header .box-desc {
   color: #1EC589;
   font-family: "Roboto", sans-serif;
   font-weight: bold;
-  font-size: 0.6em;
   margin: 5px 0;
+  line-height: 16px;
 }
 
 #track-search {
@@ -262,7 +281,6 @@ body {
   background-color: transparent;
   border: none;
   color: white;
-  font-size: 0.6em;
   font-family: "Roboto", sans-serif;
   background-color: #323232;
   padding: 5px;
@@ -270,6 +288,7 @@ body {
 }
 
 .track {
+  cursor: pointer;
   min-width: 100%;
   margin: 15px 0;
   color: white;
@@ -308,17 +327,16 @@ body {
 }
 
 .track .track-desc .track-title {
-  font-size: 0.75em;
   font-weight: bold;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   display: block;
   width: 100%;
+  font-size: 1.3em;
 }
 
 .track .track-desc .track-artists {
-  font-size: 0.6em;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -327,7 +345,6 @@ body {
 }
 
 .track .track-desc .track-selected-label {
-  font-size: 0.6em;
   overflow: hidden;
   display: none;
   width: 100%;
@@ -341,10 +358,7 @@ body {
   display: block;
 }
 
-@media only screen and (max-width: 480px) {
-  body {
-    font-size: 24px;
-  }
+@media only screen and (max-width: 768px) {
   .track {
     height: 64px;
   }
@@ -357,5 +371,52 @@ body {
     -webkit-column-gap: 10px;
             column-gap: 10px;
   }
+}
+
+@media only screen and (min-width: 768px) {
+  .pin-viewer {
+    width: 375px;
+    left: 16px;
+    padding: 20px;
+    gap: 16px;
+    border-radius: 25px;
+    font-size: 14px;
+  }
+  .pin-viewer .pin-desc {
+    -ms-grid-columns: 64px 3fr 1fr 1fr;
+        grid-template-columns: 64px 3fr 1fr 1fr;
+    -ms-grid-rows: 24px 20px 20px;
+        grid-template-rows: 24px 20px 20px;
+    -webkit-column-gap: 20px;
+            column-gap: 20px;
+  }
+  .pin-viewer .button {
+    font-size: 0.85em;
+  }
+  .pin-creator {
+    width: 375px;
+    height: 100%;
+    bottom: -100%;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    font-size: 12px;
+    gap: 10px;
+  }
+  .pin-creator .lonlat-header {
+    font-size: 1.2em;
+  }
+  .pin-creator .box-title {
+    font-size: 1.2em;
+  }
+  .pin-creator .box-desc {
+    line-height: 14px;
+  }
+  .track-title {
+    font-size: 1.2em;
+  }
+}
+
+.visible {
+  bottom: 0;
 }
 /*# sourceMappingURL=style.css.map */

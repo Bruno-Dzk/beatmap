@@ -10,6 +10,6 @@ class DefaultController extends AppSecureController{
 
     public function index(){
         $this->authorizeRender();
-        readfile("public/index.html");
+        return $this->render('index');
     }
 }

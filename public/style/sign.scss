@@ -39,7 +39,7 @@ form{
     flex-direction: column;
     font-family: $primary-font-family;
 
-    input, button{
+    input, #register-link{
         font-family: $primary-font-family;
         background: none;
         background-image:none;
@@ -66,13 +66,21 @@ form{
         margin-top: 5px;
     }
 
-    button, input[type=submit]{
+    #register-link, input[type=submit]{
         text-transform: uppercase;
         background-color: $bg-color;
         color: $primary-font-color;
     }
 
+    #register-link{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     #sign_in{
+        cursor: pointer;
         font-weight: bold;
     }
 }
@@ -82,6 +90,19 @@ form{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+a{
+    text-decoration: none;
+}
+
+#message{
+    font-family: $primary-font-family;
+    font-size: 18px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media only screen and (max-width: 480px) {
@@ -94,9 +115,34 @@ form{
         padding: 50px;
         gap: 30px;
 
-        input, button{
+        input, #register-link{
             height: 48px;
         }
     }
   }
 
+@media only screen and (min-width: 768px) {
+    .logo{
+        height: 200px;
+        font-size: 36px;
+    }
+    form{
+        padding: 0 50px;
+        gap: 30px;
+        align-items: center;
+        font-size: 18px;
+
+        input, #register-link{
+            width: 360px;
+            height: 48px;
+        }
+
+        .labeled-input{
+            width: 360px;
+        }
+    }
+}
+
+.invalid{
+    background-color: $action-color;
+}

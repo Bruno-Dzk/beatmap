@@ -1,16 +1,16 @@
 <?php
 
-class User{
+class User implements JsonSerializable{
     private $id = "";
     private $username = "";
-    private $email = "";
     private $password = "";
+    private $verified = false;
 
-    public function __construct($id, $username, $email, $password){
+    public function __construct($id, $username, $password, $verified = false){
         $this->id = $id;
         $this->username = $username;
-        $this->email = $email;
         $this->password = $password;
+        $this->verified = $verified;
     }
 
     public function getID(){
@@ -20,12 +20,18 @@ class User{
     public function getUsername(){
         return $this->username;
     }
-    
-    public function getEmail(){
-        return $this->email;
-    }
 
     public function getPassword(){
         return $this->password;
+    }
+
+    public function isVerified(){
+        return $this->verified;
+    }
+
+    public function jsonSerialize()
+    {
+        $vars = get_object_vars($this);
+        return $vars;
     }
 }

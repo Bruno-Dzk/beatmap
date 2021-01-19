@@ -20,8 +20,40 @@ class UserRepository extends Repository{
         return new User(
             $user['app_user_id'],
             $user["username"],
-            'test_email',
-            $user["password"]
+            $user["password"],
+            $user['verified']
         );
+    }
+
+    public function getUserByID($user_id) : ?User{
+        $statement = $this->database->connect()->prepare('
+            SELECT * FROM public.app_user WHERE app_user_id = :app_user_id
+        ');
+        $statement->bindParam(':app_user_id', $user_id, PDO::PARAM_STR);
+        $statement->execute();
+
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) {
+            return null;
+        }
+
+        return new User(
+            $user['app_user_id'],
+            $user["username"],
+            $user["password"],
+            $user['verified']
+        );
+    }
+
+    public function addUser($user){
+        $statement = $this->database->connect()->prepare('
+            INSERT INTO public.app_user VALUES(?, ?, ?);
+        ');
+        $statement->execute([
+            $user->getID(),
+            $user->getUsername(),
+            $user->getPassword()
+        ]);
     }
 }
