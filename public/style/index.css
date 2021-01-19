@@ -6,8 +6,9 @@
   font-family: "Nunito", sans-serif;
 }
 
-a {
+a, a:visited {
   text-decoration: none;
+  color: inherit;
 }
 
 html {
@@ -61,9 +62,7 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-.header h1 {
-  font-family: "Nunito", sans-serif;
-  font-weight: bold;
+.header .logo {
   font-size: 20px;
 }
 
@@ -80,7 +79,6 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  color: black;
 }
 
 .header a span {
@@ -196,7 +194,7 @@ body {
   display: grid;
   -ms-grid-columns: 3fr 1fr 1fr;
       grid-template-columns: 3fr 1fr 1fr;
-      grid-template-areas: "name name name" "artists artists artists" "author like dislike";
+      grid-template-areas: "name name name" "artists artists artists" "author like dislike";
 }
 
 .pin-viewer .pin-data .track-image {
