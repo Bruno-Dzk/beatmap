@@ -16,7 +16,7 @@ const map = new ol.Map({
         markerLayer
     ],
     view: new ol.View({
-        center: ol.proj.fromLonLat([0, 0]),
+        center: ol.proj.fromLonLat([19.9450, 50.0647]),
         zoom: 4
     }),
     controls: []
@@ -52,21 +52,25 @@ function createMarker(pin){
 function refreshMap(){
     let extent = map.getView().calculateExtent(map.getSize());
     extent = convertRectLonLat(extent);
-    console.log(extent);
 
     var url = new URL(GET_PINS_IN_EXTENT_URL);
     var params = [['xmin', extent[0]], ['ymin', extent[1]], ['xmax', extent[2]], ['ymax', extent[3]]];
     url.search = new URLSearchParams(params).toString();
 
     fetch(url)
-    .then(response => response.json())
-    .then(response =>{
-            vectorSource.clear();
-            console.log(response);
-            for(let pin of response){
-                createMarker(pin);
+    .then(response => {
+        if(response.ok){
+            response.json()
+            .then(response =>{
+                vectorSource.clear();
+                for(let pin of response){
+                    createMarker(pin);
             }
         });
+        }else if(response.status == 401){
+            window.location.href = APP_URL + "/relog";
+        }
+    })
 }
 
 map.on("singleclick", (event) => {

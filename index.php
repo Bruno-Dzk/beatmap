@@ -19,6 +19,7 @@ Router::post('login', 'SecurityController');
 Router::post('register', 'SecurityController');
 Router::post('refresh', 'SecurityController');
 Router::post('logout', 'SecurityController');
+Router::post('relog', 'SecurityController');
 // $pc = new PinController();
 // Router::get('/pin', 'POST', array("PinController", "createPin"));
 // Router::get('/pin/:id', 'GET', array("PinController", "getPin"));

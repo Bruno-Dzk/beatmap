@@ -1,4 +1,4 @@
-const SEARCH_TRACK_URL = "http://localhost:8080/searchTracks?query=";
+const SEARCH_TRACK_URL = APP_URL+ "/searchTracks?query=";
 
 function artistsToString(artistsArray){
     let string = "";
@@ -45,16 +45,23 @@ function createTrackView(track){
 
 trackSearch.addEventListener("input", function(){
     let query = this.value;
-    console.log(encodeURI(SEARCH_TRACK_URL + query));
     fetch(
         encodeURI(SEARCH_TRACK_URL + query)
     )
-    .then(response => response.json())
-    .then(tracks => {
-        trackList.innerHTML = "";
-        for(const track of tracks){
-            let trackView = createTrackView(track);
-            trackList.append(trackView);
+    .then(response => {
+        if(response.ok){
+            response.json()
+            .then(tracks => {
+                trackList.innerHTML = "";
+                for(const track of tracks){
+                    let trackView = createTrackView(track);
+                    trackList.append(trackView);
+                }
+            });
+        }else if(response.status == 401){
+            window.location.href = APP_URL + "/relog";
+        }else if(response.status == 404){
+            trackList.innerHTML = "";
         }
-    });
+    })
 })

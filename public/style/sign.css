@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap");
 .logo {
   text-transform: uppercase;
@@ -51,7 +50,7 @@ form {
   font-family: "Roboto", sans-serif;
 }
 
-form input, form #register-link {
+form input, form #register_link, form #login_link {
   font-family: "Roboto", sans-serif;
   background: none;
   background-image: none;
@@ -70,7 +69,7 @@ form label {
   text-transform: uppercase;
 }
 
-form input[type=text], form input[type=password] {
+form input[type=text], form input[type=email], form input[type=password] {
   font-weight: bold;
   padding: 0 15px;
   width: 100%;
@@ -79,14 +78,18 @@ form input[type=text], form input[type=password] {
   margin-top: 5px;
 }
 
-form #register-link, form input[type=submit] {
+form input[type=submit] {
+  font-weight: bold;
+}
+
+form #register_link, form #login_link, form input[type=submit] {
   cursor: pointer;
   text-transform: uppercase;
   background-color: black;
   color: white;
 }
 
-form #register-link {
+form #register_link, form #login_link {
   cursor: pointer;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -122,50 +125,72 @@ a {
 }
 
 #message {
+  padding: 15px;
   font-family: "Roboto", sans-serif;
   font-size: 18px;
-  height: 100px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  gap: 15px;
 }
 
-@media only screen and (max-width: 480px) {
+#message #validationMessage {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 15px;
+}
+
+@media only screen and (max-width: 768px) {
   .logo {
-    height: 200px;
+    height: 100px;
     font-size: 1.6em;
   }
   form {
     padding: 50px;
-    gap: 30px;
+    gap: 20px;
   }
-  form input, form #register-link {
-    height: 48px;
+  form input, form #register_link, form #login_link {
+    height: 36px;
   }
 }
 
 @media only screen and (min-width: 768px) {
   .logo {
-    height: 200px;
+    height: 150px;
     font-size: 36px;
   }
   form {
     padding: 0 50px;
-    gap: 30px;
+    gap: 20px;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
     font-size: 18px;
   }
-  form input, form #register-link {
+  form input, form #register_link, form #login_link {
     width: 360px;
-    height: 48px;
+    height: 36px;
   }
   form .labeled-input {
     width: 360px;

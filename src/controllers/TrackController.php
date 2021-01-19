@@ -29,7 +29,7 @@ class TrackController extends AppSecureController{
     }
 
     public function verifyTrack($track_id){
-        $this->authorize();
+        //$this->authorize();
         try{
             $this->trackRepository->getTrack($track_id);
             return true;

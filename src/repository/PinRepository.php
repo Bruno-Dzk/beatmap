@@ -11,7 +11,7 @@ class PinRepository extends Repository{
         $this->userRepository = new UserRepository();
     }
 
-    public function addPin($pin){
+    public function addPin($pin, $user_id){
         $coordsUUID = uniqid("coords");
         $statement = $this->database->connect()->prepare('
             INSERT INTO public.coordinates VALUES(?, ?, ?);
@@ -23,16 +23,15 @@ class PinRepository extends Repository{
         ]);
 
         $statement = $this->database->connect()->prepare('
-            INSERT INTO public.pin VALUES(?, ?, ?, ?, ?, ?, ?);
+            INSERT INTO public.pin VALUES(?, ?, ?, ?, ?, ?);
         ');
         $statement->execute([
             $pin->getPinID(),
             $pin->getTrackID(),
             $coordsUUID,
-            $pin->getUser()->getID(),
+            $user_id,
             $pin->getNoLikes(),
-            $pin->getNoDislikes(),
-            $pin->getVerified()
+            $pin->getNoDislikes()
         ]);
     }
 

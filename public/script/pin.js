@@ -1,6 +1,7 @@
-const TRACK_URL = "http://localhost:8080/track"
+const APP_URL = window.location.protocol + "//" + window.location.host;
+const TRACK_URL = APP_URL + "/track";
 const LONLAT_PRECISION = 3;
-const CREATE_PIN_URL = "http://localhost:8080/addPin";
+const CREATE_PIN_URL = APP_URL + "/addPin";
 
 const pinCreator = document.querySelector(".pin-creator");
 const pinViewer = document.querySelector(".pin-viewer");
@@ -13,6 +14,11 @@ var GLOBAL = {
     coords : [0.0, 0.0]
 }
 
+function setLonlat(lonlatHeader, n, e){
+    lonlatHeader.innerHTML = parseFloat(n).toFixed(LONLAT_PRECISION) + "°N"
+                        + "&nbsp&nbsp&nbsp" + parseFloat(e).toFixed(LONLAT_PRECISION) + "°E";
+}
+
 function showPinViewer(pin){
     const name = pinViewer.querySelector(".track-name");
     const artists = pinViewer.querySelector(".track-artists");
@@ -21,19 +27,24 @@ function showPinViewer(pin){
     const dislikes = pinViewer.querySelector(".pin-no-dislikes");
     const img = pinViewer.querySelector(".track-image");
     let lonlat = pinViewer.querySelector(".lonlat-header");
-    lonlat.innerHTML = parseFloat(pin.coords[1]).toFixed(LONLAT_PRECISION) + "°N "
-                        + parseFloat(pin.coords[0]).toFixed(LONLAT_PRECISION) + "°W";
+    setLonlat(lonlat, pin.coords[1], pin.coords[0]);
     fetch(TRACK_URL + "/" + pin.track_id)
-    .then(response => response.json())
-    .then(track => {
-        name.innerHTML = track.name;
-        artists.innerHTML = artistsToString(track.artists);;
-        app_user.innerHTML = pin.username;
-        likes.innerHTML = pin.no_likes;
-        dislikes.innerHTML = pin.no_dislikes;
-        img.src = track.imgURL;
-    }).then(() => {
-        pinViewer.classList.add("visible");
+    .then(response => {
+        if(response.ok){
+            response.json()
+            .then(track => {
+                name.innerHTML = track.name;
+                artists.innerHTML = artistsToString(track.artists);;
+                app_user.innerHTML = pin.username;
+                likes.innerHTML = pin.no_likes;
+                dislikes.innerHTML = pin.no_dislikes;
+                img.src = track.imgURL;
+            }).then(() => {
+                pinViewer.classList.add("visible");
+            })
+        }else if(response.status == 401){
+            window.location.href = APP_URL + "/relog";
+        }
     })
 }
 
@@ -44,12 +55,17 @@ function hidePinViewer() {
 function showPinCreator(coords) {
     GLOBAL.coords = coords;
     let lonlat = pinCreator.querySelector(".lonlat-header");
-    lonlat.innerHTML = coords[1].toFixed(LONLAT_PRECISION) + "°N " + coords[0].toFixed(LONLAT_PRECISION) + "°W";
+    setLonlat(lonlat, coords[1], coords[0]);
     pinCreator.classList.add("visible");
 }
 
 function hidePinCreator(){
     pinCreator.classList.remove("visible");
+}
+
+function clearPinCreator() {
+    trackList.innerHTML = "";
+    trackSearch.value = "";
 }
 
 cancelCreateButton.addEventListener("click", function(){
@@ -77,6 +93,10 @@ pinCreateButton.addEventListener("click", function(){
         .then(response => {
             if(response.ok){
                 refreshMap();
+                hidePinCreator();
+                clearPinCreator();
+            }else if(response.status == 401){
+                window.location.href = APP_URL + "/relog";
             }
         })
     }

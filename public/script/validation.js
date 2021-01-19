@@ -1,29 +1,52 @@
+const form = document.querySelector("#register_form");
 const usernameInput = document.querySelector("#username");
 const passwordInput = document.querySelector("#password");
 const repeatedPasswordInput = document.querySelector("#repeated_password");
 const messageDiv = document.querySelector("#message");
+const validationMessages = document.createElement("div");
 
-const passwdDoNotMatchMsg = document.createElement("P");
-passwdDoNotMatchMsg.innerHTML = "Passwords do not match.";
+messageDiv.append(validationMessages);
 
-var repeatedPasswdTimeout = null;
+var messages = {};
+
+var passwdMismatchTimeout = null;
+
+function updateValidationMessages(){
+    validationMessages.innerHTML = "";
+    for(message in messages){
+        validationMessages.innerHTML += "<p>" + messages[message] + "</p>";
+    }
+}
+
+function removeValidationMessage(key){
+    if(key in messages){
+        delete messages[key];
+    }
+    updateValidationMessages();
+}
 
 function passwordsMatch(password, repeatedPassword) {
     return password === repeatedPassword;
 }
 
-repeatedPasswordInput.addEventListener("input", function(){
-    if(repeatedPasswdTimeout){
-        clearTimeout(repeatedPasswdTimeout);
+
+document.body.addEventListener('input', event => {
+    if (event.target !== passwordInput && event.target !== repeatedPasswordInput) {
+        return
     }
-    repeatedPasswdTimeout = setTimeout( ()=> {
-        if(!passwordsMatch(
-            passwordInput.value,
-            repeatedPasswordInput.value
-        )){
+    if(passwdMismatchTimeout){
+        clearTimeout(passwdMismatchTimeout);
+    }
+    if(!passwordsMatch(passwordInput.value, repeatedPasswordInput.value)){
+        passwdMismatchTimeout = setTimeout( ()=> {
             passwordInput.classList.add("invalid");
             repeatedPasswordInput.classList.add("invalid");
-            messageDiv.append(passwdDoNotMatchMsg);
-        }
-    }, 1000);
+            messages["passwdMismatch"] = "Passwords do not match.";
+            updateValidationMessages();
+        }, 1000);
+    }else{
+        passwordInput.classList.remove("invalid");
+        repeatedPasswordInput.classList.remove("invalid");
+        removeValidationMessage("passwdMismatch");
+    }
 })

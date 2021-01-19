@@ -9,17 +9,17 @@
         <link rel="stylesheet" href="public/style/reset.css">
         <link rel="stylesheet" href="public/libs/ol.css" type="text/css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
-        <link rel="stylesheet" href="public/style/style.css">
+        <link rel="stylesheet" href="public/style/index.css">
     </head>
     <body>
         <header class="header">
             <a class="logout" href="logout"><span class="material-icons">exit_to_app</span> Logout</a>
-            <h1>Beatmap</h1>
+            <h1 class="logo">Beatmap</h1>
         </header>
         <div class="main">
             <div class="map" id="map"></div>
             <div class="pin-viewer">
-                <div class="lonlat-header">42.981°N 77.99°W</div>
+                <div class="lonlat-header">Could not find coordinates</div>
                 <div class="pin-data">
                     <img class="track-image">
                     <div class="pin-desc">
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="pin-creator">
-                <div class="lonlat-header">42.981°N 77.99°W</div>
+                <div class="lonlat-header">Could not find coordinates</div>
                 <div class="box-header">
                     <h1 class="box-title">
                         Create a new pin
@@ -66,5 +66,6 @@
         <script src="public/script/pin.js" type="text/javascript"></script>
         <script src="public/script/map.js" type="text/javascript"></script>
         <script src="public/script/track.js" type="text/javascript"></script>
+        <script src="public/script/refresh.js" type="text/javascript"></script>
     </body>
 </html>
